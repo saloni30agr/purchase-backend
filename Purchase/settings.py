@@ -13,16 +13,39 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+from configparser import RawConfigParser
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+# Read config file for setting up the project
+CONFIG_FILE = os.path.join(BASE_DIR, "Purchase/config.ini")
+config = RawConfigParser()
+config.read(CONFIG_FILE)
+
+HOST = config.get('main', 'host')
+HOST_TYPE = config.get('main', 'host_type')
 # Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
+# See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '7kke@$in#-4m(fl5z-1t@h6upwj@%jq*5k%gef5=2+x40+b%gg'
+SECRET_KEY = config.get('main', 'secret_key')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
+if config.get('main', 'debug') == 'True':
+    DEBUG = True
+
+# # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+# BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+#
+# # Quick-start development settings - unsuitable for production
+# # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
+#
+# # SECURITY WARNING: keep the secret key used in production secret!
+# SECRET_KEY = '7kke@$in#-4m(fl5z-1t@h6upwj@%jq*5k%gef5=2+x40+b%gg'
+#
+# # SECURITY WARNING: don't run with debug turned on in production!
+# DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -85,10 +108,10 @@ WSGI_APPLICATION = 'Purchase.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'purchase_01_02',
-        'USER': 'scar3crow',
-        'PASSWORD': 'apgh2bpb',
-        'HOST': 'localhost',  # Or an IP Address that your DB is hosted on
+        'NAME': config.get('database', 'name'),
+        'HOST': config.get('database', 'host'),
+        'USER': config.get('database', 'user'),
+        'PASSWORD': config.get('database', 'password'),
         'PORT': '3306',
     }
 }
