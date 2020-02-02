@@ -6,4 +6,6 @@
 4. create a config.ini file inside Purchase/Purchase
 5. Change database values - user, password in config file according to your system
 6. create a mysql database with name mentioned in config file
-7. Run server inside Purchase/Purchase : ./manage.py runserver <Port Number>
+7. For migrations: ./manage.py makemigrations 
+                   ./manage.py migrate
+8. Run server inside Purchase/Purchase : ./manage.py runserver <Port Number>
